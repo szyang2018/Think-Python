@@ -1,0 +1,25 @@
+from math import *
+
+
+def square_root(a):
+    epsilon = 1e-7
+    x = a / 2
+    if a <= 0:
+        print("Square Root function only takes positive numbers!")
+        return None
+    while True:
+        y = (x + a / x) / 2
+        if abs(y - x) < epsilon:
+            return y
+            break
+        x = y
+
+
+def test_square_root(max_value):
+    n = 1.0
+    while n <= max_value:
+        print(n, '\t', square_root(n), '\t', sqrt(n), '\t', abs(square_root(n) - sqrt(n)))
+        n = n + 1.0
+
+
+test_square_root(10)
