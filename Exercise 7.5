@@ -1,0 +1,27 @@
+from math import *
+
+
+def estimate_pi():
+    epsilon = 1e-15
+    subtotal = 0
+    k = 0
+    while True:
+        term = fractional(4*k)*(1103+26390*k)/(fractional(k)**4*396**(4*k))
+        if term < epsilon:
+            subtotal += term
+            break
+        subtotal += term
+        k = k+1
+    result = 2*sqrt(2)*subtotal/9801
+    return round(1.0/result, 15)
+
+
+def fractional(n):
+    if n == 0:
+        return 1
+    else:
+        return n * fractional(n-1)
+
+
+print("The estimated pi is ", estimate_pi())
+print("The real pi is ", pi)
