@@ -1,0 +1,9 @@
+def gcd(a, b):
+    if b == 0:
+        return a
+    return gcd(b, a % b)
+
+
+x = 4
+y = 9
+print(gcd(x, y))
