@@ -1,0 +1,12 @@
+def is_power(a, b):
+    if b == 0:
+        print("The base must not be zero!")
+        return None
+    elif a == b:
+        return True
+    return a % b == 0 and is_power((a/b), b)
+
+
+x = 27
+y = 3
+print(is_power(x, y))
