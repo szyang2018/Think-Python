@@ -1,0 +1,22 @@
+def rotate_word(word, num):
+    new_word = ''
+    for letter in word:
+        if letter.islower():
+            if ord(letter) + num > ord('z'):
+                new_word = new_word + chr(ord(letter) + num - 26)
+            elif ord(letter) + num < ord('a'):
+                new_word = new_word + chr(ord(letter) + num + 26)
+            else:
+                new_word = new_word + chr(ord(letter) + num)
+        else:
+            if ord(letter) + num > ord('Z'):
+                new_word = new_word + chr(ord(letter) + num - 26)
+            elif ord(letter) + num < ord('A'):
+                new_word = new_word + chr(ord(letter) + num + 26)
+            else:
+                new_word = new_word + chr(ord(letter) + num)
+
+    return new_word
+
+
+print(rotate_word('AbC', 10))
