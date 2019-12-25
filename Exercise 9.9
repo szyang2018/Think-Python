@@ -1,0 +1,18 @@
+def is_reverse(age1, age2):
+    return age1 == age2[::-1]
+
+son_ages = ''
+count = 0
+gap = 10
+while gap < 60:
+    son_age = 0
+    while son_age < 100:
+        mom_age = son_age + gap
+        if is_reverse(str(son_age).zfill(2), str(mom_age)):
+            count += 1
+            son_ages += str(son_age).zfill(2)
+        son_age += 1
+    if count == 8:
+        print(son_ages[8:10])
+    gap += 1
+    count = 0
