@@ -1,0 +1,44 @@
+def bisearch(t, target):
+    length = len(t)
+    start = 0
+    end = length
+    while start < end:
+        middle = (start+end)//2
+        if t[middle] == target:
+            return middle
+        elif t[middle] > target:
+            end = middle
+        else:
+            start = middle + 1
+    return None
+
+
+def split_words(s):
+    s1 = ''
+    s2 = ''
+    for i in range(len(s)//2):
+        s1 += s[i*2]
+        s2 += s[i*2+1]
+    return [s1, s2]
+
+
+def list_generate(filename):
+    t = []
+    fin = open(filename)
+    for line in fin:
+        word = line.strip()
+        t.append(word)
+    return t
+
+
+def check_interlock(filename):
+    word_list = list_generate(filename)
+    interlock_pair = []
+    for s in word_list:
+        if len(s) >= 4 and len(s)%2 == 0:
+            combo = split_words(s)
+            if bisearch(word_list, combo[0]) and bisearch(word_list, combo[1]):
+                interlock_pair.append(combo)
+    return interlock_pair
+
+print(check_interlock("words.txt"))
