@@ -10,7 +10,9 @@ def check_reverse(filename):
     word_list = []
     fin = open(filename)
     for line in fin:
-        word_list.append(line.strip())
+        # line needs to be splited before join
+        # 2 lists need to use extend to join, instead of append
+        word_list.extend(line.strip().split())
 
     reversed_pair = []
 
