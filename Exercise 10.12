@@ -1,0 +1,26 @@
+def is_reverse_pair(s1, s2):
+    # check if string s1 and s2 are reverse
+    if len(s1) != len(s2):
+        return False
+    else:
+        return s1 == s2[::-1]
+
+
+def check_reverse(filename):
+    word_list = []
+    fin = open(filename)
+    for line in fin:
+        word_list.append(line.strip())
+
+    reversed_pair = []
+
+    while len(word_list) > 1:
+        word1 = word_list[0]
+        for word in word_list[1:]:
+            if is_reverse_pair(word, word1):
+                reversed_pair.append(word)
+                word_list.remove(word)
+        word_list.remove(word1)
+    return reversed_pair
+
+print(check_reverse("words.txt"))
