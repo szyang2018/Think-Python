@@ -25,4 +25,40 @@ def check_reverse(filename):
         word_list.remove(word1)
     return reversed_pair
 
-print(check_reverse("words.txt"))
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# version #2 of check_reverse
+def inlist_bisearch(t, target):
+    # If found target in t, return True
+    # or return False
+    start = 0
+    end = len(t)
+    while start < end:
+        middle = (start+end)//2
+        if t[middle] == target:
+            return True
+        elif t[middle] > target:
+            end = middle
+        else:
+            start = middle + 1
+    return False
+
+
+def check_reverse_2(filename):
+    # reversed_pair to hold found reversed pair in word_list
+    # for each word, reverse it first, and search it in the word_list
+    # if found, add both to the pair list
+    word_list = []
+    fin = open(filename)
+    for line in fin:
+        word_list.append(line.strip())
+
+    reversed_pair = []
+
+    for word in word_list:
+        word_reverse = word[::-1]
+        if inlist_bisearch(word_list, word_reverse):
+            reversed_pair.append([word, word_reverse])
+    return reversed_pair
+
+print(check_reverse_2("words.txt"))
