@@ -1,0 +1,29 @@
+# Exercise 12.4
+def make_list(filename):
+    # make a list from the text file
+    t = []
+    fin = open(filename)
+    for line in fin:
+        word = line.strip()
+        t.append(word)
+    return t
+
+
+def find_anagrams(t):
+    d = {}
+    for s in t:
+        sss = ''
+        ss = sorted(s)
+        d.setdefault(sss.join(ss), []).append(s)
+
+    tt = []
+
+    for key, val in d.items():
+        if len(val) > 2:
+            tt.append(val)
+    return tt
+
+
+word_list = make_list("words.txt")
+anagrams_list = find_anagrams(word_list)
+print(*anagrams_list, sep="\n")
