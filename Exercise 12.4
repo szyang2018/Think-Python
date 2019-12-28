@@ -31,3 +31,9 @@ anagrams_list = find_anagrams(word_list)
 print(*anagrams_list, sep="\n")
 
 # speed is already very fast! Good job!
+
+# for 12.4.2
+# Modify the previous program so that it prints the largest set of anagrams first, 
+# followed by the second largest set, and so on.
+ anagrams_list_sorted = sorted(anagrams_list, key=len, reverse=True)
+ 
