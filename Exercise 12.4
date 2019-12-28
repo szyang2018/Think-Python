@@ -15,11 +15,12 @@ def find_anagrams(t):
         sss = ''
         ss = sorted(s)
         d.setdefault(sss.join(ss), []).append(s)
-
+# above 3 lines can be reduced to one line: d.setdefault(''.join(sorted(s), []).append(s)
     tt = []
 
     for key, val in d.items():
         if len(val) > 2:
+        # above line has a bug, it should be >= 2
             tt.append(val)
     return tt
 
@@ -27,3 +28,5 @@ def find_anagrams(t):
 word_list = make_list("words.txt")
 anagrams_list = find_anagrams(word_list)
 print(*anagrams_list, sep="\n")
+
+# speed is already very fast! Good job!
