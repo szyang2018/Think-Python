@@ -1,0 +1,38 @@
+# Exercise 12.5
+def make_dict(filename):
+    # make a dictionary from the text file
+    # using word length as the key
+    d = {}
+    fin = open(filename)
+    for line in fin:
+        d.setdefault(len(line.strip()), []).append(line.strip())
+    return d
+
+def is_swap(s1, s2):
+    # check if two strings (same length) are swap
+    total = 0
+    if sorted(s1) != sorted(s2):
+        return False
+    for i in range(len(s1)):
+        if s1[i] != s2[i]:
+            total = total + 1
+    if total == 2:
+        return True
+    return False
+
+
+def find_metathesis(d):
+    # find the metathesis pair in dictionary
+    t = []
+    for key, val in d.items():
+        for word in val[1:]:
+            first_word = val[0]
+            if is_swap(word, first_word):
+                t.append([first_word, word])
+            val.remove(first_word)
+    return t
+
+
+word_dict = make_dict("words.txt")
+meta_list = find_metathesis(word_dict)
+print(*meta_list, sep="\n")
