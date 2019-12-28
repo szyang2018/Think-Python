@@ -16,6 +16,7 @@ def find_anagrams(t):
         ss = sorted(s)
         d.setdefault(sss.join(ss), []).append(s)
 # above 3 lines can be reduced to one line: d.setdefault(''.join(sorted(s), []).append(s)
+# tuple way: d.setdefault(tuple(sorted(s)), []).append(s)
     tt = []
 
     for key, val in d.items():
