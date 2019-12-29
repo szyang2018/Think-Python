@@ -1,0 +1,49 @@
+# Exercise 12.6
+def make_dict2(filename):
+    # make a dictionary from the text file
+    # using word length as the key
+    d = {}
+    fin = open(filename)
+    for line in fin:
+        d[line.strip()] = line.strip()
+    return d
+
+
+def reduce_word(s):
+    # reduce a letter from a string
+    # and return a list of all reduced words
+    t = []
+    for i in range(len(s)):
+        t.append(s[:i]+s[i+1:])
+    return t
+
+
+known = {'':[]}  # memo
+def is_reducible(s, wd):
+    # check if a word s is in the word dictionary wd
+    if s in known:
+        return True
+
+    t = reduce_word(s)
+    for rs in t:
+        if rs in wd and is_reducible(rs, wd):
+        # if any of the reduced word from s is in the
+        # dictionary and also reducible, then return
+        # True immediately
+            known[s] = []
+            return True
+    return False
+
+
+def find_reducible(wd):
+    rd = []
+    for s in wd:
+        if is_reducible(s, wd):
+            rd.append((len(s), s))
+    rd.sort(reverse=True)
+
+    for length, word in rd:
+        print(word)
+
+word_dict = make_dict2("words.txt")
+find_reducible(word_dict)
