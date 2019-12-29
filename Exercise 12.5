@@ -31,7 +31,10 @@ def find_metathesis(d):
                 t.append([first_word, word])
             val.remove(first_word)
     return t
-
+# line 28-32 has a bug: 
+# The first_word is removed only use once, it does not get chance to compare with the rest of val[2:] eccentially
+# the fix would be: using two loops... 
+# the result (hopefully correct way) 3311 pair, this incorrect way has 2701 pair
 
 word_dict = make_dict("words.txt")
 meta_list = find_metathesis(word_dict)
