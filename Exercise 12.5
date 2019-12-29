@@ -25,11 +25,10 @@ def find_metathesis(d):
     # find the metathesis pair in dictionary
     t = []
     for key, val in d.items():
-        for word in val[1:]:
-            first_word = val[0]
-            if is_swap(word, first_word):
-                t.append([first_word, word])
-            val.remove(first_word)
+        for word1 in val:
+            for word2 in val:
+                if word1 < word2 and is_swap(word1, word2):
+                    t.append([word1, word2])
     return t
 # line 28-32 has a bug: 
 # The first_word is removed only use once, it does not get chance to compare with the rest of val[2:] eccentially
@@ -37,5 +36,53 @@ def find_metathesis(d):
 # the result (hopefully correct way) 3311 pair, this incorrect way has 2701 pair
 
 word_dict = make_dict("words.txt")
+meta_list = find_metathesis(word_dict)
+print(*meta_list, sep="\n")
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Updated program
+# Find the anagram pairs from the word list first
+# Then find the swap pair from the anagram pairs
+# Runs much faster than previous version
+# Exercise 12.5
+def make_anagrams_dict(filename):
+    # make a anagram dict from the text file
+    # the key is the sorted string, and the value 
+    # is a list of anagram words
+    d = {}
+    fin = open(filename)
+    for line in fin:
+        d.setdefault(''.join(sorted(line.strip())), []).append(line.strip())
+    return d
+
+
+def is_swap(s1, s2):
+    # check if two strings (same length) are swap
+    total = 0
+    if sorted(s1) != sorted(s2):
+        return False
+    for i in range(len(s1)):
+        # compare each letter, and increase counter by 1
+        # if found mismatch
+        if s1[i] != s2[i]:
+            total = total + 1
+    if total == 2:
+        return True
+    return False
+
+
+def find_metathesis(d):
+    # find the metathesis pair in dictionary
+    t = []
+    for key, val in d.items():
+        for word1 in val:
+            for word2 in val:
+                if word1 < word2 and is_swap(word1, word2):
+                    t.append([word1, word2])
+    return t
+
+
+word_dict = make_anagrams_dict("words.txt")
 meta_list = find_metathesis(word_dict)
 print(*meta_list, sep="\n")
