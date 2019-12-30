@@ -78,7 +78,7 @@ def reduce(w, d):
 def find_reducible_words(t):
     d = {}
     d.setdefault("", [])
-    d.setdefault("I", [])
+    d.setdefault("i", [])
     d.setdefault("a", [])
 
     for s in t:
@@ -91,7 +91,7 @@ def find_longest(word):
     return sorted_list[0]
 
 word_list = make_list("words.txt")
-reduced_list = find_reducible_words(word_list)
+reduced_list = find_reducible_words(sorted(word_list, key=len, reverse=True))
 longest = find_longest(reduced_list)
 print(*reduced_list, sep="\n")
 print('Longest word is {}, len of the word is {}'.format(longest, len(longest)))
