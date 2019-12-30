@@ -95,3 +95,59 @@ reduced_list = find_reducible_words(sorted(word_list, key=len, reverse=True))
 longest = find_longest(reduced_list)
 print(*reduced_list, sep="\n")
 print('Longest word is {}, len of the word is {}'.format(longest, len(longest)))
+
+
+
+###############################
+# I modified your code as follows
+# YM's solution
+#########################
+def make_list(filename):
+  # make a sorted list from the text file
+  t = []
+  st = []
+  fin = open(filename)
+  for line in fin:
+      word = line.strip()
+      t.append((len(word), word))
+  t.sort()
+  for length, word in t:
+      st.append(word)
+  return st
+
+def get_children(w):
+    children = []
+    for i in range(len(w)):
+        children.append(w[:i] + w[i+1:])
+    return children
+
+# recursively reduce a word
+# remember the reduciable word and its immediate children, so we don't need to
+# regenerate them.
+def reduce(w, d):
+    for child in get_children(w):
+        if child in d:
+            d.setdefault(w, [])
+    return d
+
+def find_reducible_words(t):
+    d = {}
+    rs = []
+    d.setdefault(" ", [])
+    d.setdefault("i", [])
+    d.setdefault("a", [])
+
+    for s in t:
+        d = reduce(s, d)
+
+    for key, val in d.items():
+        rs.append((len(key), key))
+    rs.sort(reverse=True)
+    return rs
+
+
+word_list = make_list("words.txt")
+reduced_list = find_reducible_words(word_list)
+length, longest_word = reduced_list[0]
+print(*reduced_list, sep="\n")
+print('Longest word is {}, len of the word is {}'.format(longest_word, length))
