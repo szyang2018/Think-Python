@@ -47,3 +47,51 @@ def find_reducible(wd):
 
 word_dict = make_dict2("words.txt")
 find_reducible(word_dict)
+
+#########################
+  def make_list(filename):                                                                                                                                                                                
+      # make a list from the text file
+      t = []
+      fin = open(filename)
+      for line in fin:
+          word = line.strip()
+          t.append(word)
+      return t
+ 
+def get_children(w):
+    children = []
+    for i in range(len(w)):
+        children.append(w[:i] + w[i+1:])
+    return children
+
+# recursively reduce a word
+# remember the reduciable word and its immediate children, so we don't need to
+# regenerate them.
+def reduce(w, d):
+    if len(w) == 0:
+        return;
+
+    for child in get_children(w):
+        if d.get(child) is not None:
+            d.setdefault(w, []).append(child)
+
+def find_reducible_words(t):
+    d = {}
+    d.setdefault("", [])
+    d.setdefault("I", [])
+    d.setdefault("a", [])
+
+    for s in t:
+        reduce(s, d)
+
+    return d.keys()
+
+def find_longest(word):
+    sorted_list = sorted(word, key=len, reverse=True)
+    return sorted_list[0]
+
+word_list = make_list("words.txt")
+reduced_list = find_reducible_words(word_list)
+longest = find_longest(reduced_list)
+print(*reduced_list, sep="\n")
+print('Longest word is {}, len of the word is {}'.format(longest, len(longest)))
