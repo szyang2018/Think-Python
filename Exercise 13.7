@@ -1,0 +1,70 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# Exercise 13.7
+from string import *
+from random import *
+
+def make_hist(filename):
+    hist = {}
+    fin = open(filename)
+    for line in fin:
+        line = line.replace('-', ' ')
+        for word in line.split():
+            word = word.strip(whitespace + punctuation).lower()
+            hist[word] = hist.get(word, 0) + 1
+    return hist
+
+def make_cumulative_sum_list(hist):
+    # make a cumulative sum list based on the histogram
+    t = []
+    total = 0
+    for key, val in hist.items():
+        total = total + val
+        t.append(total)
+    return t
+
+
+def make_word_list(hist):
+    # make a word list based a histogram
+    t = []
+    for key, val in hist.items():
+        t.append(key)
+    return t
+
+
+def find_index(t, num):
+    # find the index where the num should be inserted in the cumulative sum list
+    # using the bisection search
+    if num > t[-1]:
+        raise ValueError('The number should be smaller than {}', len(t))
+
+    start = 0
+    end = len(t)
+    if num <= t[start]:
+        return 0
+
+    while start < end:
+        middle = (start + end) // 2
+        if num == t[middle]:
+            return middle
+        elif t[middle] < num < t[middle + 1]:
+            return middle + 1
+        elif t[middle] > num:
+            end = middle
+        else:
+            start = middle + 1
+
+
+def print_random_word(d, t):
+    # print a random word from the histogram
+    # based on its probability
+    # d is the histogram list
+    # t is a word list
+    cum_sum_list = make_cumulative_sum_list(d)
+    rand_num = randint(1, cum_sum_list[-1])
+    index = find_index(cum_sum_list, rand_num)
+    print(t[index])
+
+
+hist = make_hist("emma.txt")
+word_list = make_word_list(hist)
+print_random_word(hist, word_list)
