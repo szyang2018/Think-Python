@@ -1,0 +1,59 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# Exercise 13.9
+# Zipf's law
+from string import *
+from random import *
+import matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def make_hist(filename):
+    hist = {}
+    fin = open(filename, encoding="utf8")
+    for line in fin:
+        line = line.replace('-', ' ')
+        for word in line.split():
+            word = word.strip(whitespace + punctuation).lower()
+            hist[word] = hist.get(word, 0) + 1
+    return hist
+
+def sort_by_freq(hist):
+    # take a histogram dictionary and sort its frequency (value)
+    t = []
+    for key, val in hist.items():
+        t.append(val)
+    t.sort(reverse=True)
+    return t
+
+
+def plot_zipf(filename1, filename2):
+    # Print the Zipf's law based on the histogram d
+    hist1 = make_hist(filename1)
+    hist2 = make_hist(filename2)
+
+    freq1 = sort_by_freq(hist1)
+    freq1_log = np.log(freq1)
+
+    freq2 = sort_by_freq(hist2)
+    freq2_log = np.log(freq2)
+
+    rank1 = range(1, len(hist1)+1)
+    rank1_log = np.log(rank1)
+
+    rank2 = range(1, len(hist2)+1)
+    rank2_log = np.log(rank2)
+
+    fig, ax = plt.subplots()
+    ax.plot(rank1_log, freq1_log, label='Emma')
+    ax.plot(rank2_log, freq2_log, label='A Tale of Two Cities')
+
+    ax.set(xlabel='log(rank)', ylabel='log(frequency)', title="Zipf's Law")
+    ax.grid()
+    ax.legend()
+
+    fig.savefig("Zipf_Law.png")
+    plt.show()
+
+
+plot_zipf("emma.txt", "A_Tale_Of_Two_Cities.txt")
