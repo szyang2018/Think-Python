@@ -1,0 +1,53 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# Exercise 13.8
+# Markov analysis
+def make_markov_dict(filename, length=2):
+    # make a Markov analysis dictionary based on the txt file
+    fin = open(filename)
+    t = []
+    d = {}
+    for line in fin:
+        for word in line.split():
+            word = word.strip()
+            t.append(word)
+
+    for i in range(len(t)-length):
+        prefix = ''
+        for word in t[i:i+length]:
+            prefix += (word + ' ')
+        suffix = t[i+length]
+        d.setdefault(prefix, []).append(suffix)
+
+    return d
+
+
+def make_random_text(d, word_count, length=2):
+    # generate a random text based on the Markov dictionary
+    # and required number of words.
+
+    t = ' '
+    start_list = []
+    for key, val in d.items():
+        if key[0].isupper():
+            start_list.append(key)
+    start_words = choice(start_list)
+    next_prefix = start_words
+    s = [start_words]
+    num = 2
+
+    while num < word_count:
+        prefix_end = ''
+        next_suffix = choice(d[next_prefix])
+        for i in range(1, length):
+            prefix_end += (next_prefix.split()[i]+' ')
+        next_prefix = prefix_end + next_suffix + ' '
+        s.append(next_suffix)
+        num += 1
+
+    return t.join(s)
+
+
+prefix_length = 3
+markov_dict = make_markov_dict("emma.txt", prefix_length)
+random_text = make_random_text(markov_dict, 50, prefix_length)
+print(random_text)
