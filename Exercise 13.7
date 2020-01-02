@@ -46,6 +46,8 @@ def find_index(t, num):
         middle = (start + end) // 2
         if num == t[middle]:
             return middle
+    # line above should return middle+1, the reason is: this should be bisect right
+    # line 47-51 can be merged together
         elif t[middle] < num < t[middle + 1]:
             return middle + 1
         elif t[middle] > num:
