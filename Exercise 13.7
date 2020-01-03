@@ -46,8 +46,11 @@ def find_index(t, num):
         middle = (start + end) // 2
         if num == t[middle]:
             return middle
-    # line above should return middle+1, the reason is: this should be bisect right
-    # line 47-51 can be merged together
+    # I think you are right, because line 64 you are generating number from [1, n]
+    # while in the answer key provided, he was using randint[0, n-1]
+    # so both are correct. 
+    # Great job!
+    
         elif t[middle] < num < t[middle + 1]:
             return middle + 1
         elif t[middle] > num:
