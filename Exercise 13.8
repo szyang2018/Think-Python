@@ -14,7 +14,7 @@ def make_markov_dict(filename, length=2):
     for i in range(len(t)-length):
         prefix = ''
         for word in t[i:i+length]:
-            prefix += (word + ' ')
+            prefix += (word + ' ') ## this is a string cancastination, does not need ()
         suffix = t[i+length]
         d.setdefault(prefix, []).append(suffix)
 
@@ -28,7 +28,7 @@ def make_random_text(d, word_count, length=2):
     t = ' '
     start_list = []
     for key, val in d.items():
-        if key[0].isupper():
+        if key[0].isupper(): ## Nice!
             start_list.append(key)
     start_words = choice(start_list)
     next_prefix = start_words
@@ -39,12 +39,14 @@ def make_random_text(d, word_count, length=2):
         prefix_end = ''
         next_suffix = choice(d[next_prefix])
         for i in range(1, length):
-            prefix_end += (next_prefix.split()[i]+' ')
+            prefix_end += (next_prefix.split()[i]+' ') 
+            ## consider to use tuple, so that shift can make use of slice, instead of string concatination
+            ## for example: next_prefix = next_prefix[1:] + (next_suffix,)
         next_prefix = prefix_end + next_suffix + ' '
         s.append(next_suffix)
         num += 1
 
-    return t.join(s)
+    return t.join(s) ## I don't see t has been used anywhere else, so maybe just ' '.join(s)
 
 
 prefix_length = 3
